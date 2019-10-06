@@ -11,7 +11,7 @@ Merge Sort versus Quick Sort using Insertion Sort as the threshold
 #include <iostream>
 using namespace std;
 
-const int threshold = 8;
+int threshold;
 int merge_counter = 0;
 int quick_counter = 0;
 
@@ -149,33 +149,82 @@ void show(int A[], int size)
 
 int main()
 {
-    /*int size;
-    cout << "\nEnter the number of elements : ";
+    int choice = 0, repeat = 0;
 
+
+while(repeat == 0){
+    cout << "This program displays the usage of two sorting methods, Mergesort and Quicksort. It is done using Insertionsort as a thresholdsort." ;
+    cout << "\nEnter threshold value: ";
+    cin >> threshold;
+
+
+// Creating the array that will be sorted
+    int* arr = NULL;	
+    int size;
+    cout << "\nEnter the number of elements : ";
     cin >> size;
-    */
-    const int size = 20;
+    arr = new int[size];
+    for (int i = 0; i < size; i++){
+	arr[i] = 0;
+	}
+    
+    
+
+//Special conditions for if the size is 15 or lower
+    if(size <= 15){
+	int entry;
+	cout << "Enter 1 for manual list entry, Enter 2 for randomly generated \n";
+	cin >> entry; 
+	cout << "Would you like the list to be displayed? 1 for yes / 2 for no \n";
+	cin >> choice;
+	if(entry == 1){
+
+		for(int i = 0; i<size; i++){
+		cout << "Enter list for element " << i << ": \n";
+		cin >> arr[i];
+		}
+	}
+	else if(entry == 2){
+		for(int i = 0; i<size; i++){
+		arr[i] = rand() % 100;
+		}
+	}
+     }
+
+    if(size > 15){
+	for(int i = 0; i<size; i++){
+		arr[i] = (rand()%100);
+		}
+	}
+	
+	
+    /*const int size = 20;
     int arr1[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
     int arr2[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
-    /*cout << "\nEnter the unsorted elements : ";
-
-    for (int i = 0; i < size; ++i)
-    {
-        cout << "\n";
-        cin >> arr[i];
-    }
-    */
-
-    int threshold = 8;
-    mergeSort(arr1, 0, size);
-    quickSort(arr2, 0, size);
+     */    
+   
+ 
+    int* arr2 = arr;
+    mergeSort(arr, 0, size);
+    quickSort(arr2, 0, size); 
     cout << "Sorted array\n";
-    show(arr1, size);
+   if (choice == 1){
+    cout << "SORTED ARRAY USING MERGESORT\n";
+    show(arr, size);
     cout << "\n";
+
+    cout << "SORTED ARRAY USING QUICKSORT\n";
     show(arr2, size);
     cout << "\n";
+    }
     cout << "Merge counter=" << merge_counter << "\n";
     cout << "Quick counter=" << quick_counter << "\n";
+    merge_counter = 0;
+    quick_counter = 0; 
+
+    cout << "To restart, enter 0. To end, enter anything other than 0: \n";
+    cin >> repeat;
+}
     
     return 0;
 
