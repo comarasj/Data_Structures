@@ -11,18 +11,20 @@ Merge Sort versus Quick Sort using Insertion Sort as the threshold
 #include <iostream>
 using namespace std;
 
-void insertionSort(int arr[], int size)
+const int threshold = 8;
+
+void insertionSort(int arr[], int l, int r)
 {
-    for (int i = 1; i < size; i++)
+    for (int i = l; i <= r; i++)
     	{
     		int temp = arr[i];
-    		int j = i - 1;
-    		while (j >= 0 && temp < arr[j])
+    		int j = i;
+    		while (j >= l && temp < arr[j - 1])
     		{
-    			arr[j + 1] = arr[j];
+    			arr[j] = arr[j - 1];
     			j--;
     		}
-    		arr[j + 1] = temp;
+    		arr[j] = temp;
     	}
 }
 
@@ -72,22 +74,24 @@ void merge(int arr[], int l, int m, int r)
     }
 }
 
-void mergeSort(int arr[], int l, int r, int threshold)
+void mergeSort(int arr[], int l, int r)
 {
-    if (l + r > threshold ){
-        //call insertion sort
-        cout << "Insertion sort called by merge sort\n";
-        insertionSort(arr, l + r);
-    }
-    else if (l < r)
+    
+    if (l < r)
     {
+        if (l + r <= threshold ){
+            //call insertion sort
+            //bootstrap condition
+            // cout << "Insertion sort called by merge sort\n";
+            insertionSort(arr, l, r);
+        } else {  
+            int m = l + (r - l) / 2;
 
-        int m = l + (r - l) / 2;
+            mergeSort(arr, l, m);
+            mergeSort(arr, m + 1, r);
 
-        mergeSort(arr, l, m, threshold);
-        mergeSort(arr, m + 1, r, threshold);
-
-        merge(arr, l, m, r);
+            merge(arr, l, m, r);
+        }
     }
 }
 
@@ -114,20 +118,21 @@ int partition(int arr[], int low, int high)
     return (i + 1);
 }
 
-void quickSort(int arr[], int low, int high, int threshold)
+void quickSort(int arr[], int low, int high)
 {
-    if (low + high > threshold){
-        //call insertion sort
-        cout << "Insertion sort called by quick sort\n";
-        insertionSort(arr, low + high);
-    }
-    else if (low < high)
+    if (low < high)
     {
+        if (low + high <= threshold){
+            //call insertion sort 
+            //bootstrap condition
+            cout << "Insertion sort called by quick sort\n";
+            insertionSort(arr, low, high);
+        } else {
+            int p = partition(arr, low, high);
 
-        int p = partition(arr, low, high);
-
-        quickSort(arr, low, p - 1, threshold);
-        quickSort(arr, p + 1, high, threshold);
+            quickSort(arr, low, p - 1);
+            quickSort(arr, p + 1, high);
+        }
     }
 }
 
@@ -148,7 +153,7 @@ int main()
     cin >> size;
     */
     const int size = 20;
-    int arr1[size] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
+    int arr1[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
     //int arr2[size] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
     /*cout << "\nEnter the unsorted elements : ";
 
@@ -160,8 +165,8 @@ int main()
     */
 
     int threshold = 8;
-    mergeSort(arr1, 0, size, threshold);
-    //quickSort(arr2, 0, size, threshold);
+    mergeSort(arr1, 0, size);
+    //quickSort(arr1, 0, size);
     cout << "Sorted array\n";
     show(arr1, size);
     cout << "\n";
