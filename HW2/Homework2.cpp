@@ -12,6 +12,8 @@ Merge Sort versus Quick Sort using Insertion Sort as the threshold
 using namespace std;
 
 const int threshold = 8;
+int merge_counter = 0;
+int quick_counter = 0;
 
 void insertionSort(int arr[], int l, int r)
 {
@@ -86,7 +88,7 @@ void mergeSort(int arr[], int l, int r)
             insertionSort(arr, l, r);
         } else {  
             int m = l + (r - l) / 2;
-
+            merge_counter++;
             mergeSort(arr, l, m);
             mergeSort(arr, m + 1, r);
 
@@ -129,7 +131,7 @@ void quickSort(int arr[], int low, int high)
             insertionSort(arr, low, high);
         } else {
             int p = partition(arr, low, high);
-
+            quick_counter++;
             quickSort(arr, low, p - 1);
             quickSort(arr, p + 1, high);
         }
@@ -154,7 +156,7 @@ int main()
     */
     const int size = 20;
     int arr1[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
-    //int arr2[size] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
+    int arr2[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
     /*cout << "\nEnter the unsorted elements : ";
 
     for (int i = 0; i < size; ++i)
@@ -166,11 +168,15 @@ int main()
 
     int threshold = 8;
     mergeSort(arr1, 0, size);
-    //quickSort(arr1, 0, size);
+    quickSort(arr2, 0, size);
     cout << "Sorted array\n";
     show(arr1, size);
     cout << "\n";
-    //show(arr2, size);
+    show(arr2, size);
+    cout << "\n";
+    cout << "Merge counter=" << merge_counter << "\n";
+    cout << "Quick counter=" << quick_counter << "\n";
+    
     return 0;
 
 
