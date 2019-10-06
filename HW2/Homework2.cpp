@@ -84,7 +84,6 @@ void mergeSort(int arr[], int l, int r)
         if (l + r <= threshold ){
             //call insertion sort
             //bootstrap condition
-            // cout << "Insertion sort called by merge sort\n";
             insertionSort(arr, l, r);
         } else {  
             int m = l + (r - l) / 2;
@@ -127,7 +126,6 @@ void quickSort(int arr[], int low, int high)
         if (low + high <= threshold){
             //call insertion sort 
             //bootstrap condition
-            cout << "Insertion sort called by quick sort\n";
             insertionSort(arr, low, high);
         } else {
             int p = partition(arr, low, high);
@@ -207,7 +205,6 @@ while(repeat == 0){
     int* arr2 = arr;
     mergeSort(arr, 0, size);
     quickSort(arr2, 0, size); 
-    cout << "Sorted array\n";
    if (choice == 1){
     cout << "SORTED ARRAY USING MERGESORT\n";
     show(arr, size);
