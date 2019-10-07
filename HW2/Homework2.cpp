@@ -194,15 +194,20 @@ while(repeat == 0){
 		arr[i] = (rand()%100);
 		}
 	}
-	
-	
-    /*const int size = 20;
+    int* arr2 = arr;
+    if (choice == 1){
+	cout << "UNSORTED ARRAY\n";
+    show(arr, size);
+    cout << "\n";
+    }
+    /* test vectors
+    const int size = 20;
     int arr1[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
     int arr2[20] = {100, 80, 1, 2, 32, 89, 7, 50, 10, 72, 63, 42, 63, 5, 22, 101, 38, 11, 17, 95};
      */    
    
  
-    int* arr2 = arr;
+    
     mergeSort(arr, 0, size);
     quickSort(arr2, 0, size); 
    if (choice == 1){
