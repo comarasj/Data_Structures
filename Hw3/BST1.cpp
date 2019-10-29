@@ -57,6 +57,9 @@ public:
     }
 
     void inorderTraversal()
+    /**
+     *  Outputs list in alphabetical order
+     **/
     {
         cout << "LastName   FirstName   PhoneNumber" << endl;
         inorder(root);
@@ -110,7 +113,7 @@ public:
         Node *n = recursiveSearch(root, name);
         if (n != nullptr)
         {
-            cout << n->lastName << "   " << n->firstName << "   " << n->phoneNumber << endl;
+            cout << "Found: " <<  n->lastName << " " << n->firstName << " " << n->phoneNumber << endl;
         }
         else
         {
@@ -118,7 +121,7 @@ public:
         }
     }
 
-    Node* recursiveSearch(Node *root, string name)
+    Node *recursiveSearch(Node *root, string name)
     {
         if (root == nullptr || root->getName() == name)
         {
@@ -144,7 +147,7 @@ public:
         if (n != nullptr)
         {
             n->setPhoneNumber(newNumber);
-            cout << n->lastName << "   " << n->firstName << "   " << n->phoneNumber << endl;
+            cout << "Changed: " << n->lastName << " " << n->firstName << " " << n->phoneNumber << endl;
         }
         else
         {
@@ -152,9 +155,28 @@ public:
         }
     }
 
-    void remove()
+    void remove(string _firstName, string _lastName)
     {
-        //call search ?
+        string name = _lastName + _firstName;
+        Node *n = recursiveRemove(root, name);
+        if (n != nullptr)
+        {
+            cout << "Removed: " << n->lastName << " " << n->firstName << " " << n->phoneNumber << endl;
+        }
+        else
+        {
+            cout << "Person not found in Phonebook" << endl;
+        }
+    }
+
+    Node *recursiveRemove(Node *root, string name)
+    {
+        if (root == nullptr)
+        {
+            return root;
+        }
+
+        // need more here
     }
 };
 
@@ -163,10 +185,9 @@ void test()
     BST Phonebook("123456789", "Stephen", "Comarata");
     Phonebook.insert("123456789", "Tyler", "Sasse");
     Phonebook.insert("123456789", "Dylan", "Wheeler");
-    Phonebook.insert("123456789", "Matt", "Comarata");
-    
+
     Phonebook.inorderTraversal();
-    Phonebook.change("Matt", "Comarata", "987654321");
+    Phonebook.change("Tyler", "Sasse", "987654321");
 }
 
 int main()
@@ -174,4 +195,4 @@ int main()
     test();
 }
 
-//First name and Last name must start with capital letter implement in menu
+//First name and Last name must start with capital letter -- implement in menu
