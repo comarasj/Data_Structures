@@ -261,10 +261,12 @@ public:
 
     void read()
     {
-        root = nullptr;
+        root->left = nullptr;
+        root->right = nullptr;
         ifstream myfile("phonebook.txt");
         string line;
         string delimiter = " ";
+        int i = 0;
         while (getline(myfile, line))
         {
             int space = line.find(delimiter);
@@ -275,8 +277,16 @@ public:
 
             string fname = line.substr(0, space);
             string number = line.substr(space + 1, line.length());
-
-            insert(number, fname, lname);
+            if (i != 0)
+            {
+                insert(number, fname, lname);
+            }
+            else
+            {
+                i = 1;
+                root->setPhoneNumber(number);
+                root->setName(fname, lname);
+            }
         }
     }
 };
