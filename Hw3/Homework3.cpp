@@ -251,14 +251,23 @@ public:
         }
     }
 
-    void read()
+    void read(Person *b, BinarySearchTree *n)
     {
-        //overwrite the root node
-        recursiveRead();
-        inorderTraversal();
-    }
+	ifstream myfile;
+	myfile.open("phonebook.txt");
+	if(!myfile){
+		cout << "Error opening file" << endl;
+	}
 
-    void recursiveRead()
+	while(myfile >> b->lastName >>  b->firstName >> b->phoneNumber)
+	{
+		
+		(*n).insert(b->phoneNumber, b->firstName, b->lastName);
+	
+	    }
+}
+
+    void recursiveRead(Person *b, BinarySearchTree *n)
     {
     }
 };
@@ -269,6 +278,7 @@ void GUI()
     string fName;
     string lName;
     string phoneN;
+  
     BinarySearchTree Phonebook("123123", "Stephen", "Comarata");
 
     while (menu != 6)
@@ -283,6 +293,7 @@ void GUI()
         cin >> menu;
         if (menu == 0)
         {
+	    read(root,&Phonebook);
             cout << "====================Phonebook===================" << endl;
             Phonebook.inorderTraversal();
             cout << "================================================" << endl;
