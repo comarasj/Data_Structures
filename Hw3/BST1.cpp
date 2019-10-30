@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string.h>
+#include <fstream>
 
 using namespace std;
 
@@ -161,7 +162,7 @@ public:
         Node *n = recursiveRemove(root, name);
         if (n != nullptr)
         {
-            cout << "Removed: " << n->lastName << " " << n->firstName << " " << n->phoneNumber << endl;
+            cout << "Removed phonebook entry" << endl;
         }
         else
         {
@@ -171,28 +172,131 @@ public:
 
     Node *recursiveRemove(Node *root, string name)
     {
-        if (root == nullptr)
+     if(root==NULL) return root;
+    else if(name<root->getName()) 
+        root->left = recursiveRemove(root->left, name);
+    else if (name> root->getName())
+        root->right = recursiveRemove(root->right, name);
+    else
+    {
+        //No child
+        if(root->right == NULL && root->left == NULL)
         {
-            return root;
+            delete root;
+            root = NULL;   
         }
-
-        // need more here
+        //One child 
+        else if(root->right == NULL)
+        {
+            Node* temp = root;
+            root= root->left;
+            delete temp;
+        }
+        else if(root->left == NULL)
+        {
+            Node* temp = root;
+            root= root->right;
+            delete temp;
+        }
+        //two child
+        else
+        {
+            Node* temp = FindMax(root->left);
+            root->getName() = temp->getName();
+            root->left = recursiveRemove(root->left, temp->getName());
+        }
     }
-};
-
-void test()
+    return root;
+}
+Node* FindMax(Node* root)
 {
-    BST Phonebook("123456789", "Stephen", "Comarata");
-    Phonebook.insert("123456789", "Tyler", "Sasse");
-    Phonebook.insert("123456789", "Dylan", "Wheeler");
+    if(root==NULL)
+    return NULL;
 
-    Phonebook.inorderTraversal();
-    Phonebook.change("Tyler", "Sasse", "987654321");
+    while(root->right != NULL)
+    {
+        root = root->right;
+    }
+    return root;
+}
+};
+/* Attempt at writing to a file, not entirely sure what im doing
+void write(Node* n){
+fstream New("phonebook.txt");
+write_node(n, New);
+New.close()
+}
+void write_node(Node* n, fstream& file){
+if(!n){
+ return;
+}
+write_node(n->left, file);
+file << n*>data;
+write_node(n->right, file);
+}
+*/
+void GUI()
+{   
+    int menu;
+    string fName;
+    string lName; 
+    string phoneN;
+    BST Phonebook("123123", "Stephen", "Comarata");
+   
+
+while(menu != 6){
+cout << "Enter 1. to ADD to phonebook" << endl <<  "Enter 2. to DELETE from phonebook" << endl << "Enter 3. to FIND from phonebook" << endl << "Enter 4. to CHANGE phone number entry" << endl << "Enter 5. to DISPLAY phonebook" << endl << "Enter 6. to QUIT" << endl;
+cin >> menu;
+if(menu == 1){
+cout << "First name to be added? : " << endl;
+cin >> fName;
+cout << "Last name to be added? : " << endl;
+cin >> lName;
+cout << "Phone number of person? : " << endl;
+cin >> phoneN;
+Phonebook.insert(phoneN, fName, lName);
+}
+
+if(menu == 2){
+cout << "First name? : " << endl;
+cin >> fName;
+cout << "Last name? : " << endl;
+cin >> lName;
+Phonebook.remove(fName,lName);
+}
+
+if(menu == 3){
+cout << "First name? : " << endl;
+cin >> fName;
+cout << "Last name? : " << endl;
+cin >> lName;
+Phonebook.search(fName,lName);
+}
+
+if(menu == 4){
+cout << "First name? : " << endl;
+cin >> fName;
+cout << "Last name? : " << endl;
+cin >> lName;
+cout << "new phone number? : " << endl;
+cin >> phoneN;
+Phonebook.change(fName,lName,phoneN);
+}
+
+if(menu == 5){
+Phonebook.inorderTraversal();
+}
+
+}
+
+
+
 }
 
 int main()
 {
-    test();
+    GUI();
+    
 }
 
 //First name and Last name must start with capital letter -- implement in menu
