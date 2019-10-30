@@ -95,26 +95,34 @@ public:
 
     void recursiveInsert(Person *n, Person *root)
     {
-        if (n->getName() <= root->getName())
+        if (root == nullptr)
         {
-            if (root->left == nullptr)
-            {
-                root->left = n;
-            }
-            else
-            {
-                recursiveInsert(n, root->left);
-            }
+            root = n;
         }
         else
         {
-            if (root->right == nullptr)
+
+            if (n->getName() <= root->getName())
             {
-                root->right = n;
+                if (root->left == nullptr)
+                {
+                    root->left = n;
+                }
+                else
+                {
+                    recursiveInsert(n, root->left);
+                }
             }
             else
             {
-                recursiveInsert(n, root->right);
+                if (root->right == nullptr)
+                {
+                    root->right = n;
+                }
+                else
+                {
+                    recursiveInsert(n, root->right);
+                }
             }
         }
     }
@@ -251,24 +259,25 @@ public:
         }
     }
 
-    void read(Person *b, BinarySearchTree *n)
+    void read()
     {
-	ifstream myfile;
-	myfile.open("phonebook.txt");
-	if(!myfile){
-		cout << "Error opening file" << endl;
-	}
+        root = nullptr;
+        ifstream myfile("phonebook.txt");
+        string line;
+        string delimiter = " ";
+        while (getline(myfile, line))
+        {
+            int space = line.find(delimiter);
+            string lname = line.substr(0, space);
+            line = line.substr(space + 1, line.length());
 
-	while(myfile >> b->lastName >>  b->firstName >> b->phoneNumber)
-	{
-		
-		(*n).insert(b->phoneNumber, b->firstName, b->lastName);
-	
-	    }
-}
+            space = line.find(delimiter);
 
-    void recursiveRead(Person *b, BinarySearchTree *n)
-    {
+            string fname = line.substr(0, space);
+            string number = line.substr(space + 1, line.length());
+
+            insert(number, fname, lname);
+        }
     }
 };
 
@@ -278,7 +287,6 @@ void GUI()
     string fName;
     string lName;
     string phoneN;
-  
     BinarySearchTree Phonebook("123123", "Stephen", "Comarata");
 
     while (menu != 6)
@@ -293,7 +301,7 @@ void GUI()
         cin >> menu;
         if (menu == 0)
         {
-	    read(root,&Phonebook);
+            Phonebook.read();
             cout << "====================Phonebook===================" << endl;
             Phonebook.inorderTraversal();
             cout << "================================================" << endl;
@@ -352,5 +360,3 @@ int main()
 {
     GUI();
 }
-
-//First name and Last name must start with capital letter -- implement in menu
