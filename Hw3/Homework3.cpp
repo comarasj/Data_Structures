@@ -1,3 +1,7 @@
+/** EECE 4040 
+ * Homework 3 Binary Search Tree Phonebook Project
+ * Stephen Comarata and Dylan Wheeler
+ * */
 #include <iostream>
 #include <string.h>
 #include <fstream>
