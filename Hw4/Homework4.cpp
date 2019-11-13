@@ -14,6 +14,9 @@ using namespace std;
 
 const int SIZE = 500;
 
+string tasks[SIZE];
+int tasks_size = 0;
+
 class Node
 {
 private:
@@ -44,18 +47,16 @@ public:
         size++;
     }
 
-    bool addEdge(int src, int dest)
+    void addEdge(int src, int dest)
     {
         if (size < src || size < dest)
         {
             cout << "source or destination nodes do not exist" << endl;
-            return false;
         }
         else
         {
             recursiveAddEdge(adjList[src], dest);
         }
-        return true;
     }
 
     void recursiveAddEdge(Node *root, int dest)
@@ -76,8 +77,38 @@ public:
         }
     }
 
+    void deleteEdge(int src, int dest)
+    {
+        if (size < src || size < dest)
+        {
+            cout << "source or destination nodes do not exist" << endl;
+        }
+        else
+        {
+            Node *temp = adjList[src];
+            Node *prev;
+
+            while (temp != nullptr && temp->value != dest)
+            {
+                prev = temp;
+                temp = temp->next;
+            }
+
+            if (temp == nullptr)
+            {
+                cout << "edge does not exist" << endl;
+            }
+            else
+            {
+                prev->next = temp->next;
+                delete temp;
+            }
+        }
+    }
+
     void showGraph()
     {
+        cout << "-----Digraph-----" << endl;
         for (int i = 0; i < size; i++)
         {
             cout << adjList[i]->value;
@@ -111,6 +142,8 @@ void test()
     digraph.addEdge(3, 4);
     digraph.addEdge(1, 4);
     digraph.addEdge(1, 4);
+    digraph.showGraph();
+    digraph.deleteEdge(1, 4);
     digraph.showGraph();
 }
 
