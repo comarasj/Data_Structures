@@ -126,7 +126,7 @@ public:
 
     void showGraph()
     {
-        cout << "-----Digraph-----" << endl;
+        cout << "-----Adj List-----" << endl;
         for (int i = 0; i < size; i++)
         {
             cout << adjList[i]->value;
@@ -160,6 +160,7 @@ public:
 
         while (!stk.empty())
         {
+            cout << "-----Topological Sort-----" << endl;
             cout << stk.top() << " ";
             stk.pop();
         }
