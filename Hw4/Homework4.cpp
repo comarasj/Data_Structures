@@ -157,11 +157,11 @@ public:
         for (int i = 0; i < size; i++)
             if (!vis[i]) //when node is not visited
                 topologicalSortUtil(i, vis, stk);
-
+cout << "-----Topological Sort-----" << endl;
         while (!stk.empty())
         {
-            cout << "-----Topological Sort-----" << endl;
-            cout << stk.top() << " ";
+            
+            cout << stk.top() << " " << endl;
             stk.pop();
         }
     }
