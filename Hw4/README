@@ -1,0 +1,9 @@
+USAGE:
+
+Enter number of task
+will be prompted for the name of the task, up until the number specified
+i.e, you select 5 task, it will output 1. (ENTER TASK HERE) and so on
+
+After thats done, it will ask for the order relation pairs. Simply put a number, space then the next number and then enter. When you are done, enter 0 to causae it to stop.
+
+It will then print out the desired information
