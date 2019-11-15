@@ -7,8 +7,8 @@
 
 #include <iostream>
 #include <string.h>
-#include <fstream>
-#include <vector>
+#include <list>
+#include <stack>
 
 using namespace std;
 
@@ -33,6 +33,23 @@ public:
 class Diagraph
 {
 private:
+    void topologicalSortUtil(int v, bool visited[], stack<int> &Stack)
+    {
+
+        // Mark the current node as visited.
+        visited[v] = true;
+        if (adjList[v]->next != nullptr)
+        {
+            Node *temp = adjList[v]->next;
+            if (!visited[temp->value])
+            {
+                topologicalSortUtil(temp->value, visited, Stack);
+            }
+        }
+        // Push current vertex to stack which stores result
+        Stack.push(v);
+    }
+
 public:
     Node *adjList[SIZE];
     int size;
@@ -49,8 +66,9 @@ public:
 
     void addEdge(int src, int dest)
     {
-        if (size < src || size < dest)
+        if (size <= src || size <= dest)
         {
+
             cout << "source or destination nodes do not exist" << endl;
         }
         else
@@ -128,6 +146,24 @@ public:
             recursiveShowGraph(root->next);
         }
     }
+    void performTopologicalSort()
+    {
+        stack<int> stk;
+        bool vis[SIZE];
+
+        for (int i = 0; i < size; i++)
+            vis[i] = false; //initially all nodes are unvisited
+
+        for (int i = 0; i < size; i++)
+            if (!vis[i]) //when node is not visited
+                topologicalSortUtil(i, vis, stk);
+
+        while (!stk.empty())
+        {
+            cout << stk.top() << " ";
+            stk.pop();
+        }
+    }
 };
 
 void test()
@@ -145,10 +181,78 @@ void test()
     digraph.showGraph();
     digraph.deleteEdge(1, 4);
     digraph.showGraph();
+    digraph.performTopologicalSort();
+}
+
+void showTasks()
+{
+    for (int i = 0; i < tasks_size; i++)
+    {
+        cout << i << ". " << tasks[i] << endl;
+    }
+}
+
+void userInterface()
+{
+    Diagraph digraph;
+    int menu = 0;
+    cout << "Digraph Program" << endl;
+    while (menu != 6)
+    {
+        cout << endl;
+        cout << "Enter 0. to add a vertice" << endl
+             << "Enter 1. to add an edge" << endl
+             << "Enter 2. to delete an edge" << endl
+             << "Enter 3. to show the adj list of the graph" << endl
+             << "Enter 4. to show the topological sort of the graph" << endl
+             << "Enter 5. to show the list of tasks" << endl
+             << "Enter 6. to exit" << endl;
+        cin >> menu;
+        if (menu == 0)
+        {
+            string task;
+            cout << "Enter the name of task: ";
+            cin >> task;
+            tasks[tasks_size] = task;
+            tasks_size++;
+            digraph.addVertice();
+        }
+        else if (menu == 1)
+        {
+            int src, dest;
+            cout << "Enter the number of the source vertice: ";
+            cin >> src;
+            cout << "Enter the number of the destination vertice: ";
+            cin >> dest;
+            digraph.addEdge(src, dest);
+        }
+        else if (menu == 2)
+        {
+            int src, dest;
+            cout << "Enter the number of the source vertice: ";
+            cin >> src;
+            cout << "Enter the number of the destination vertice: ";
+            cin >> dest;
+            digraph.deleteEdge(src, dest);
+        }
+        else if (menu == 3)
+        {
+            digraph.showGraph();
+        }
+        else if (menu == 4)
+        {
+            digraph.performTopologicalSort();
+        }
+        else if (menu == 5)
+        {
+            showTasks();
+        }
+    }
 }
 
 int main()
 {
-    test();
+    //test();
+    userInterface();
     return 0;
 }
